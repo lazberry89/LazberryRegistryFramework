@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * <h3>IoC Container Lifecycle & Routing Mechanics:</h3>
  * <ul>
  * <li><b>Auto-Scanning:</b> Framework components implementing this interface and annotated with LRF
- * command identifiers are automatically detected by the {@link Framework.LazberryRegistryFramework.PackageScanner}.</li>
+ * command identifiers are automatically detected by the PackageScanner.</li>
  * <li><b>Dynamic Multiplexing:</b> The primary command executor holds a mapped infrastructure of these
  * {@code SubCommand} beans (typically {@code Map<String, SubCommand>}). When a player fires an input,
  * the executor strips the root argument, matches the sub-key, and forwards the context downstream instantly.</li>
