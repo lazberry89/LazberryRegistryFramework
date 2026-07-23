@@ -21,13 +21,13 @@ To eliminate boilerplate setup and enforce strict lifecycle encapsulation, main 
       │
       ▼
 ┌────────────────────────────────────────────────────────┐
-│ LazberryRegistryFramework.onEnable() [LOCKED final]   │
+│ LazberryRegistryFramework.onEnable() [LOCKED final]    │
 ├────────────────────────────────────────────────────────┤
 │ 1. Context Allocation & Package Boundary Discovery     │
 │ 2. ClassPath Scanning & Config Mapping (@ConfigObject) │
-│ 3. IoC Graph Resolution & ByteBuddy Proxy Assembly    │
+│ 3. IoC Graph Resolution & ByteBuddy Proxy Assembly     │
 │ 4. Scheduler & Event Binding                           │
-│ 5. Developer Hook Dispatch ───────────────────────────┼──► onLrfEnable()
+│ 5. Developer Hook Dispatch ────────────────────────────┼──► onLrfEnable()
 └────────────────────────────────────────────────────────┘
 ```
 
