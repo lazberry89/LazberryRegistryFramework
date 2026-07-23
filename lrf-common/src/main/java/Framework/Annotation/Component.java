@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <h2>Registry</h2>
+ * <h2>Component</h2>
  * <p>
  * Serves as the primary organizational namespace and structural container for the framework's
  * Inversion of Control (IoC) registration filtering metadata.
@@ -24,10 +24,10 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Registry {
+public @interface Component {
 
 	/**
-	 * <h3>Registry.Include</h3>
+	 * <h3>Component.Include</h3>
 	 * <p>
 	 * Explicitly marks a target class token to be scanned, processed, and registered as a fully managed singleton bean
 	 * inside the central {@code DependencyContainer} context pool under matching environmental parameters.
@@ -52,7 +52,7 @@ public @interface Registry {
 	}
 
 	/**
-	 * <h3>Registry.Exclude</h3>
+	 * <h3>Component.Exclude</h3>
 	 * <p>
 	 * Explicitly restricts and bars a target class component from entering the IoC compilation queue,
 	 * purging its registration profile early if the running infrastructure meets the declared conditions.

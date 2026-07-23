@@ -1,4 +1,4 @@
-package Framework.LazberryRegistryFramework.Annotation;
+package Framework.Annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

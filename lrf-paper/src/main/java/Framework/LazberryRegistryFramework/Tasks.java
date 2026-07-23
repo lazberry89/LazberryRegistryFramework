@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * <h2>Tasks (IoC-Managed Framework Lifecycle Task Specification)</h2>
  * <p>
  * Enforces a strict functional contract for managing repeating background routines, async runnables,
- * or localized ticking engines that integrate into the Lazberry Registry Framework (LRF).
+ * or localized ticking engines that integrate into the Lazberry Component Framework (LRF).
  * </p>
  * * <h3>Framework Integration & Orchestration Mechanics:</h3>
  * <p>

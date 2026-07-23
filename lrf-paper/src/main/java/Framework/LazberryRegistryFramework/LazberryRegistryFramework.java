@@ -2,9 +2,9 @@ package Framework.LazberryRegistryFramework;
 
 import Framework.Global;
 import Framework.InitializeType;
+import Framework.LazberryRegistryFramework.Annotation.GracefulShutdown;
 import Framework.Local;
 import Framework.ServerType;
-import Framework.Utils.ColorUtils;
 import com.google.common.reflect.ClassPath;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,30 +18,37 @@ import org.jetbrains.annotations.Nullable;
  * <h2>LazberryRegistryFramework (LRF Master Bootstrapper, IoC Orchestrator & Global Core Context)</h2>
  * <p>
  * Acts as the absolute central nervous system, primary boot gateway, and configuration matrix for the
- * <b>Lazberry Registry Framework (LRF)</b>. It encapsulates global runtime settings, tracks the server-wide
- * debugging state, controls structural visualization logs, and orchestrates synchronous, multi-phase
- * initialization and cleanup routines for modern Minecraft JavaPlugin architectures.
+ * <b>Lazberry Component Framework (LRF)</b>. By extending {@link JavaPlugin}, it encapsulates the entire
+ * Bukkit/Spigot runtime lifecycle, automating IoC container creation, dependency injection, proxy synthesization,
+ * scheduled task management, and prioritized graceful shutdowns with zero boilerplate requirements.
  * </p>
  *
  * <h3>Key Framework Features & Architectural Philosophy</h3>
  * <ul>
  * <li>
- * <b>Implicit Package Topology Discovery:</b>
- * Instead of forcing developers to write hardcoded root package string literals, the framework intercepts
- * the exact runtime package location of the calling main class during {@link #boot(JavaPlugin, Class)}.
- * This eliminates human configuration errors and maps out the reflection scanning boundaries automatically.
+ * <b>Zero-Boilerplate Abstract Bootstrapping:</b>
+ * Plugins implementing LRF inherit from this abstract master class instead of raw {@link JavaPlugin}.
+ * Native lifecycle methods {@link #onEnable()} and {@link #onDisable()} are locked with {@code final} to enforce
+ * strict boot/teardown encapsulation. Developers instead hook into optional lifecycle callbacks:
+ * {@link #onLrfEnable()} and {@link #onLrfDisable()}.
  * </li>
  * <li>
- * <b>Stateful Lifecycle Symmetrical Inversion:</b>
- * The framework enforces strict symmetry between startup and shutdown. What is activated during {@link #boot(JavaPlugin, Class)}
- * (such as IoC beans, listeners, and tasks via {@link InitializeType#TASKS_OFF} exemption) is fully and gracefully
- * purged during {@link #cleanUp(JavaPlugin, Class)} (triggering network flush, task cancellations, and database
- * disconnections) to guarantee zero memory footprints on hot-reloads.
+ * <b>Implicit Package Topology Discovery:</b>
+ * The framework automatically intercepts the exact runtime package namespace of the concrete subclass during
+ * {@link #boot(JavaPlugin, Class)}. This eliminates human configuration errors and establishes implicit reflection
+ * scanning boundaries without hardcoded package string parameters.
+ * </li>
+ * <li>
+ * <b>Automated Lifecycle Symmetrical Inversion:</b>
+ * startup and teardown phases are strictly inverted to prevent resource fragmentation. During plugin termination,
+ * active repeating tasks registered via {@link ScheduleProcessor} are systematically cancelled, and handlers
+ * decorated with {@link GracefulShutdown} are executed in prioritized order before purging
+ * the underlying IoC container map.
  * </li>
  * <li>
  * <b>Server Context Partitioning Matrix:</b>
  * Pre-registers the framework's native environment contexts, {@link Global} and {@link Local}, into the
- * {@link ServerType} registry prior to scanning. This enables the conditional evaluation subsystems to determine
+ * {@link ServerType} registry prior to scanning. This enables conditional evaluation subsystems to determine
  * whether a component belongs in a multi-proxy network or an isolated single-node server.
  * </li>
  * <li>
@@ -52,36 +59,89 @@ import org.jetbrains.annotations.Nullable;
  * </li>
  * </ul>
  *
- * <h3>Boot & Cleanup Pipeline Mechanics (How it Works)</h3>
+ * <h3>Boot & Cleanup Pipeline Mechanics (How It Works)</h3>
  * <p>
- * The boot sequence transitions strictly through a multi-tiered pipeline:
+ * The automated execution lifecycle transitions through a multi-tiered pipeline:
  * <ol>
- * <li><b>Context Allocation:</b> Registers core server types and captures the execution package directory.</li>
+ * <li><b>Context Allocation:</b> Registers core server types and captures the subclass package location.</li>
  * <li><b>Resource Mapping:</b> Builds Guava's {@link ClassPath} from the plugin's dedicated {@link ClassLoader}.</li>
- * <li><b>IoC Injection Room:</b> Delegates class references to {@link PackageScanner} to construct dependency graphs.</li>
- * <li><b>Platform Coupling:</b> Hands over initialized beans to {@link Reflections} to bind listeners, commands, and tasks.</li>
+ * <li><b>IoC & AOP Injection:</b> Delegates class references to {@link PackageScanner} to construct dependency graphs
+ * and wrap beans with ByteBuddy proxies.</li>
+ * <li><b>Post-Processing Hooks:</b> Automatically binds active {@link ScheduleProcessor} timers and registers {@link ShutdownRegistry} hooks.</li>
+ * <li><b>Developer Hook Dispatch:</b> Triggers {@link #onLrfEnable()} for custom user-level setup code.</li>
  * </ol>
- * During plugin termination, the pipeline is run in exact reverse order (Cleanup Phase), safely breaking reference hooks
- * to prevent classloader bloating and memory leaks inside the JVM heap.
+ * During plugin termination, the reverse sequence cancels scheduled tasks, flushes graceful shutdown queues,
+ * and releases static references to guarantee complete garbage collection on plugin hot-reloads.
  * </p>
  *
  * @author Lazberry (LRF Architecture Team)
+ * @see ScheduleProcessor
+ * @see ShutdownRegistry
  * @see PackageScanner
  * @see DependencyContainer
- * @see Reflections
  * @see ServerType
  */
 @Slf4j
-@SuppressWarnings("unchecked")
-public final class LazberryRegistryFramework {
+public abstract class LazberryRegistryFramework extends JavaPlugin {
     private static final @NotNull String VERSION = "LRF_26.7.19";
-    private static final @NotNull String success = ColorUtils.chatStr("&a[SUCCESS]");
-    private static final @NotNull String failure = ColorUtils.chatStr("&c[FAILURE]");
+    private static final @NotNull String success = "§a[SUCCESS]";
+    private static final @NotNull String failure = "§c[FAILURE]";
     private static @NotNull String packageName = "";
     private static @NotNull @Getter @Setter String defaultChannel = "";
     private static boolean debugMode = true;
     private static boolean drawStructure = true;
 	private static @Nullable JavaPlugin plugin;
+
+	/**
+	 * Primary entry point invoked by Bukkit upon plugin enablement.
+	 * <p>
+	 * <b>Inviolable Lifecycle Lock:</b> This method is declared {@code final} to guarantee that the LRF IoC
+	 * bootstrap engine, package scanning pipeline, and AOP proxies are loaded in exact sequence before invoking
+	 * user code. To insert custom enable logic, override {@link #onLrfEnable()}.
+	 * </p>
+	 */
+	@Override
+	public final void onEnable() {
+		boot(this, getClass());
+		onLrfEnable();
+	}
+
+	/**
+	 * Primary teardown point invoked by Bukkit upon plugin disablement.
+	 * <p>
+	 * <b>Graceful Cleanup Guarantee:</b> This method is declared {@code final} to enforce safe teardown ordering.
+	 * It first dispatches {@link #onLrfDisable()}, cancels active {@link ScheduleProcessor} task loops, executes
+	 * prioritized {@link ShutdownRegistry} handlers, and purges reflection contexts to prevent JVM memory leaks.
+	 * </p>
+	 */
+	@Override
+	public final void onDisable() {
+		try {
+			onLrfDisable();
+		} finally {
+			ScheduleProcessor.cancelAllSchedules();
+			ShutdownRegistry.executeShutdownSequence();
+			cleanUp(this, getClass());
+		}
+	}
+
+	/**
+	 * User-definable lifecycle hook invoked immediately <b>AFTER</b> the LRF framework has completed container setup.
+	 * <p>
+	 * Override this method in your main plugin class to perform post-boot operations, such as registering custom
+	 * listeners or outputting startup banner logs.
+	 * </p>
+	 */
+	protected abstract void onLrfEnable();
+
+	/**
+	 * User-definable lifecycle hook invoked immediately <b>BEFORE</b> the LRF framework initiates task cancellation
+	 * and graceful shutdown routines.
+	 * <p>
+	 * Override this method in your main plugin class to execute custom pre-teardown logic.
+	 * </p>
+	 */
+	protected abstract void onLrfDisable();
 
 	/**
 	 * Retrieves the encapsulated live root {@link JavaPlugin} instance.
@@ -90,12 +150,12 @@ public final class LazberryRegistryFramework {
 	 * To prevent asynchronous race conditions or premature access from early-loading classes, this getter explicitly
 	 * verifies initialization states, throwing an exception if called before the boot process has completed.
 	 * </p>
-	 *
+
 	 * @return The non-null root {@link JavaPlugin} context instance.
 	 * @throws IllegalStateException If the framework has not yet been initialized via {@link #setPluginInstance(JavaPlugin)}.
 	 */
 	public static @NotNull JavaPlugin plugin() {
-		if (plugin == null) throw new IllegalStateException(icon(false) + " Framework is not initialized, call setPluginInstance() first.");
+		if (plugin == null) throw new IllegalStateException(icon() + " Framework is not initialized, call setPluginInstance() first.");
 		return plugin;
 	}
 
@@ -150,7 +210,7 @@ public final class LazberryRegistryFramework {
 	 * <p>
 	 * <b>Immutability Note:</b>
 	 * This method is marked as {@link Contract}(pure = true) because it references a locked state established exactly
-	 * once at boot, guaranteeing predictable mapping across all multi-threaded reflection queries.
+	 * once at boot, guaranteeing predictable mapping across all multithreaded reflection queries.
 	 * </p>
 	 *
 	 * @return The non-null string containing the root package namespace (e.g., "com.lazberry.plugin").
@@ -181,31 +241,23 @@ public final class LazberryRegistryFramework {
     }
 
 	/**
-	 * Returns a dynamically colorized gradient prefix token representing the framework name [LRF].
-	 * Supports both modern Adventure Components and standard legacy color string output channels.
+	 * Returns the colorized prefix token representing the framework identifier [LFR].
 	 *
-	 * @param component <b>true</b> to return a Kyori Component instance; <b>false</b> to return a ChatColor legacy string.
-	 * @param <T>       The generic return parameter type inferred by the contextual calling assignment.
-	 * @return The colorized framework identifier token.
+	 * @return Legacy color-coded console prefix token.
 	 */
     @Contract(pure = true)
-    public static @NotNull <T> T icon(boolean component) {
-        if (component) return (T) ColorUtils.chat("&#F45454[&#F7563FL&#FA592AR&#FC5B15F&#FF5D00]");
-        return (T) ColorUtils.chatStr("&#F45454[&#F7563FL&#FA592AR&#FC5B15F&#FF5D00]");
+    public static @NotNull String icon() {
+        return "§6[LFR]";
     }
 
 	/**
-	 * Returns a dynamically colorized gradient prefix token representing the [IoC] system tag.
-	 * Supports both modern Adventure Components and standard legacy color string output channels.
+	 * Returns the colorized prefix token representing the IoC container system tag [IoC].
 	 *
-	 * @param component <b>true</b> to return a Kyori Component instance; <b>false</b> to return a ChatColor legacy string.
-	 * @param <T>       The generic return parameter type inferred by the contextual calling assignment.
-	 * @return The colorized IoC engine identifier token.
+	 * @return Legacy color-coded console system tag.
 	 */
     @Contract(pure = true)
-    public static @NotNull <T> T IoC(boolean component) {
-        if (component) return (T) ColorUtils.chat("&#001CFF[&#0045FFI&#006FFFo&#0098FFC&#00C1FF]");
-        return (T) ColorUtils.chatStr("&#001CFF[&#0045FFI&#006FFFo&#0098FFC&#00C1FF]");
+    public static @NotNull String IoC() {
+        return "§a[IoC]";
     }
 
 	/** Returns the centralized color-mapped success bracket token used across terminal print streams. */
@@ -235,7 +287,7 @@ public final class LazberryRegistryFramework {
     private static void setup(@NotNull JavaPlugin plugin, @NotNull Class<? extends JavaPlugin> mainClass, boolean on) {
 		setPluginInstance(plugin);
 
-        String icon = icon(false);
+        String icon = icon();
         long startTime = System.currentTimeMillis();
         log.info("{} Booting LazberryRegistryFramework...", icon);
 
@@ -285,7 +337,7 @@ public final class LazberryRegistryFramework {
 	/**
 	 * The final shutdown command that gracefully tears down the entire framework lifecycle.
 	 * <p>
-	 * <b>Absolute Memory Leak Defusal:</b>
+	 * <b>Absolute Memory Leak Refusal:</b>
 	 * This method de-registers task loops, unhooks network routing paths, and wipes the static tracking container maps
 	 * inside {@link ServerType}. It <b>MUST</b> be called inside the host plugin's shutdown method to guarantee clean
 	 * classloader garbage collection and prevent severe JVM memory fragmentation upon server reloads.

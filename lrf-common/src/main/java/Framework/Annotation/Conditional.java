@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
  * @author Lazberry (LRF Architecture Team)
  * @version 1.1.0
  * @see Framework.ConditionalRegistry
- * @see Framework.Annotation.Registry.Include
+ * @see Component.Include
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -39,7 +39,7 @@ import java.util.Map;
 @Slf4j
 public final class PluginMessageRouter implements PluginMessageListener {
     private final Map<String, List<PluginReceiver>> routes = new HashMap<>();
-    private static final String icon = LazberryRegistryFramework.icon(false);
+    private static final String icon = LazberryRegistryFramework.icon();
 
 	/**
 	 * Registers an independent functional receiver subscription hook targeting a specified network channel signature.

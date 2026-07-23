@@ -48,7 +48,7 @@ import java.util.Set;
  */
 @Slf4j
 public final class StructuralLog {
-    private static final @NotNull String ICON = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String ICON = LazberryRegistryFramework.icon();
 
     /**
      * Renders the starting entry visual branch of a targeted class inside the current dependency chain resolution loop.

@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.LazberryRegistryFramework.Annotation.SelfDestruct;
+import Framework.Annotation.SelfDestruct;
 import lombok.extern.slf4j.Slf4j;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -37,11 +37,11 @@ import java.util.List;
  * @author Lazberry (LRF Architecture Team)
  * @see Destructible
  * @see DependencyContainer
- * @see Framework.LazberryRegistryFramework.Annotation.SelfDestruct
+ * @see SelfDestruct
  */
 @Slf4j
 public final class DestructiveClassEngine {
-    private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String icon = LazberryRegistryFramework.icon();
     private static final List<Object> TRANSIENT_COMPONENTS = Collections.synchronizedList(new ArrayList<>());
 
 	/**

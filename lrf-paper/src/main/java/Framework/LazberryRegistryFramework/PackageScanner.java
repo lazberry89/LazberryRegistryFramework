@@ -1,11 +1,9 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.Conditional;
-import Framework.Annotation.ConsumableClass;
-import Framework.Annotation.Inject;
-import Framework.Annotation.Registry;
+import Framework.Annotation.*;
 import Framework.ConditionalRegistry;
 import Framework.LazberryRegistryFramework.Annotation.Commands;
+import Framework.LazberryRegistryFramework.Annotation.ConfigObject;
 import Framework.LazberryRegistryFramework.Annotation.Listeners;
 import Framework.LazberryRegistryFramework.Annotation.Task;
 import Framework.Utils.ServerUtils;
@@ -41,7 +39,7 @@ import java.util.Set;
  */
 @Slf4j
 final class PackageScanner {
-    private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String icon = LazberryRegistryFramework.icon();
 
 	/**
 	 * Executes the core component scanning loop, filtering out invalid or incompatible structures, 
@@ -52,7 +50,7 @@ final class PackageScanner {
 	 * <li><b>Structural Sanity:</b> Discards pure Java interfaces and abstract class blueprints.</li>
 	 * <li><b>Consumption Guard:</b> Skips classes tagged with {@link ConsumableClass}, identifying them as reusable templates.</li>
 	 * <li><b>Server Environment Check:</b> Invokes {@link ServerUtils#unCompatibleWithCurrentServer(Class)} to drop modules incompatible with the current active NMS/Spigot version.</li>
-	 * <li><b>Annotation Matching:</b> Collects classes possessing target LRF anchors ({@code @Registry.Include}, {@code @Commands}, {@code @Listeners}, etc.) or constructors marked with {@link Inject}.</li>
+	 * <li><b>Annotation Matching:</b> Collects classes possessing target LRF anchors ({@code @Component.Include}, {@code @Commands}, {@code @Listeners}, etc.) or constructors marked with {@link Inject}.</li>
 	 * <li><b>Conditional Evaluation:</b> Instantiates localized {@link ConditionalRegistry} matchers if {@link Conditional} is present. The class is permanently dropped from the boot cycle if {@code condition.matches()} yields false.</li>
 	 * </ol>
 	 * </p>
@@ -75,6 +73,11 @@ final class PackageScanner {
                     continue;
                 }
 
+				if (clazz.isAnnotationPresent(Virtual.class)) {
+					if (LazberryRegistryFramework.isDebug()) log.debug("{} Skipping @Virtual component: {}", icon, clazz.getSimpleName());
+					continue;
+				}
+
                 if (ServerUtils.unCompatibleWithCurrentServer(clazz)) {
                     if (LazberryRegistryFramework.isDebug()) log.debug("{} Skipping incompatible class: {}", icon, clazz.getSimpleName());
                     continue;
@@ -88,8 +91,8 @@ final class PackageScanner {
                     }
                 }
 
-                if (clazz.isAnnotationPresent(Registry.Include.class) ||
-                        clazz.isAnnotationPresent(Registry.Exclude.class) ||
+                if (clazz.isAnnotationPresent(Component.Include.class) ||
+                        clazz.isAnnotationPresent(Component.Exclude.class) ||
                         clazz.isAnnotationPresent(Commands.class) ||
                         clazz.isAnnotationPresent(Listeners.class) ||
                         clazz.isAnnotationPresent(Task.class) ||
@@ -101,17 +104,24 @@ final class PackageScanner {
                             ConditionalRegistry condition = conditionalAnno.value().getDeclaredConstructor().newInstance();
 
                             if (!condition.matches()) {
-                                if (LazberryRegistryFramework.isDebug()) log.info("{} [LRF-Conditional] Skipping disabled component: {}", icon, clazz.getSimpleName());
+                                if (LazberryRegistryFramework.isDebug()) log.info("{} Skipping disabled component: {}", icon, clazz.getSimpleName());
                                 continue;
                             }
                         } catch (Exception e) {
-                            log.error("{} [LRF-Conditional] Failed to evaluate condition for {}", icon, clazz.getSimpleName(), e);
+                            log.error("{} Failed to evaluate condition for {}", icon, clazz.getSimpleName(), e);
                             continue;
                         }
                     }
 
                     targetClasses.add(clazz);
                 }
+
+	            if (clazz.isAnnotationPresent(ConfigObject.class)) {
+		            Object configBean = ConfigObjectMapper.mapConfigObject(clazz);
+		            DependencyContainer.registerInstance(clazz, configBean);
+
+		            log.info("{} Registered @ConfigObject bean: {}", LazberryRegistryFramework.icon(), clazz.getSimpleName());
+	            }
             } catch (Exception e) {
                 if (LazberryRegistryFramework.isDebug()) log.warn("{} Failed to load class for scanning: {}", icon, classInfo.getName());
             }
@@ -148,8 +158,8 @@ final class PackageScanner {
                     continue;
                 }
                 if (interfaceType.isAssignableFrom(candidate)) {
-                    if (candidate.isAnnotationPresent(Registry.Include.class) ||
-                            candidate.isAnnotationPresent(Registry.Exclude.class) ||
+                    if (candidate.isAnnotationPresent(Component.Include.class) ||
+                            candidate.isAnnotationPresent(Component.Exclude.class) ||
                             candidate.isAnnotationPresent(Commands.class)) {
                         return candidate;
                     }

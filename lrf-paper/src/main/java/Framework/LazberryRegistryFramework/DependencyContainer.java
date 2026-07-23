@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <h2>DependencyContainer (Core IoC / DI Assembly Matrix & Singleton Registry Engine)</h2>
+ * <h2>DependencyContainer (Core IoC / DI Assembly Matrix & Singleton Component Engine)</h2>
  * <p>
  * This class serves as the ultimate runtime heart, master dependency injector, and definitive single
- * source of truth for the <b>Lazberry Registry Framework (LRF)</b>. It governs the internal Inversion of Control (IoC)
+ * source of truth for the <b>Lazberry Component Framework (LRF)</b>. It governs the internal Inversion of Control (IoC)
  * application context, orchestrating the recursive structural resolution, instantiation, and lifecycle management
  * of all managed singleton beans.
  * </p>
@@ -74,7 +74,7 @@ import java.util.Set;
 public final class DependencyContainer {
     private static final @NotNull Map<Class<?>, Object> BEAN_CONTAINER = new LinkedHashMap<>(30);
     private static final @NotNull Set<Class<?>> CONSTRUCTION_STACK = new LinkedHashSet<>(30);
-    private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String icon = LazberryRegistryFramework.icon();
 
 	/**
 	 * Package-private gateway exposing the internal bean map storage directly to core framework bootsTrappers.
@@ -107,9 +107,7 @@ public final class DependencyContainer {
     @SuppressWarnings("unchecked")
     public static @Nullable <T> T getBean(@NotNull Class<T> clazz) {
         for (var entry : BEAN_CONTAINER.entrySet()) {
-            if (clazz.isAssignableFrom(entry.getKey())) {
-                return (T) entry.getValue();
-            }
+            if (clazz.isInstance(entry.getValue()) ||clazz.isAssignableFrom(entry.getKey())) return (T) entry.getValue();
         }
         return null;
     }
@@ -215,6 +213,8 @@ public final class DependencyContainer {
 
                 instance = targetConstructor.newInstance(paramInstances);
                 StructuralLog.logAssemblySuccess(currentDepth, clazz, parameters.length);
+
+				instance = LrfProxyFactory.createProxy(clazz, instance);
 
                 if (instance instanceof LrfInitializer) {
                     try {

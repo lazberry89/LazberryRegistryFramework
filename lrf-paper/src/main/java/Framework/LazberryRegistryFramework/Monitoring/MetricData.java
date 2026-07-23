@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 @Getter
 @ConsumableClass
-@Deprecated(forRemoval = true)
 public final class MetricData {
 	private final @NotNull String className;
 	private final @NotNull String methodName;

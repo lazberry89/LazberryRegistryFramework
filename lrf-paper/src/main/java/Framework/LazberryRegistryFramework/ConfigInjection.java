@@ -70,7 +70,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @Slf4j
 public final class ConfigInjection {
-    private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String icon = LazberryRegistryFramework.icon();
 
 	private static @NotNull JavaPlugin plugin() {
 		return LazberryRegistryFramework.plugin();

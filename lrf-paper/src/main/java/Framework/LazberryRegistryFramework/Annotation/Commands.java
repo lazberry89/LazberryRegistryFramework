@@ -1,7 +1,5 @@
 package Framework.LazberryRegistryFramework.Annotation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -36,7 +34,7 @@ public @interface Commands {
 	 *
 	 * @return The non-null structural command label string.
 	 */
-    @NotNull String command();
+    String command();
 
 	/**
 	 * Defines an optional array of alternative command labels (aliases) capable of routing execution
@@ -49,5 +47,5 @@ public @interface Commands {
 	 *
 	 * @return A non-null array of string configurations mapping out secondary command pathways.
 	 */
-    @NotNull String[] aliases() default {};
+    String[] aliases() default {};
 }

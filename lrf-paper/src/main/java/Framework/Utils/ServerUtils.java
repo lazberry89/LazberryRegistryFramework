@@ -1,6 +1,6 @@
 package Framework.Utils;
 
-import Framework.Annotation.Registry;
+import Framework.Annotation.Component;
 import Framework.Global;
 import Framework.LazberryRegistryFramework.LazberryRegistryFramework;
 import Framework.ServerType;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * <h2>LRF Core Runtime Platform Verification Engine (Server Compatibility Utilities)</h2>
  * <p>
- * This class serves as the backbone utility enabling the Lazberry Registry Framework (LRF)
+ * This class serves as the backbone utility enabling the Lazberry Component Framework (LRF)
  * to dynamically filter and isolate independent components across a multi-platform
  * Minecraft server environment (e.g., BungeeCord, Paper, Velocity).
  * </p>
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Lazberry (LRF Architecture Team)
  * @see ServerType
- * @see Registry
+ * @see Component
  */
 public final class ServerUtils {
 
@@ -52,7 +52,7 @@ public final class ServerUtils {
      * @see org.bukkit.plugin.java.JavaPlugin
      */
     @Contract(value = "-> !null", pure = true)
-    public static @NotNull JavaPlugin plugin() {
+    static @NotNull JavaPlugin plugin() {
         return LazberryRegistryFramework.plugin();
     }
 
@@ -64,9 +64,9 @@ public final class ServerUtils {
      * </p>
      * <b>[Operational Mechanics & Philosophy]:</b>
      * <ol>
-     * <li><b>Blacklist Evaluation:</b> It first inspects the {@link Registry.Exclude} annotation on the target class.
+     * <li><b>Blacklist Evaluation:</b> It first inspects the {@link Component.Exclude} annotation on the target class.
      * If the current server type is matched within the exclusion array, the component is rejected immediately (returns true).</li>
-     * <li><b>Whitelist Evaluation:</b> It then verifies the {@link Registry.Include} annotation. The method scans the
+     * <li><b>Whitelist Evaluation:</b> It then verifies the {@link Component.Include} annotation. The method scans the
      * permitted server types using the `isServerTypeUnCompatible` algorithm. If not a single matching condition is satisfied,
      * it concludes the component is incompatible (returns true).</li>
      * <li><b>Global Defaulting:</b> If a pure component lacks both annotations, the LRF architectural philosophy
@@ -76,22 +76,22 @@ public final class ServerUtils {
      * @param clazz The target component class currently being scanned for IoC container registration.
      * @return <b>true</b> if the component is incompatible with the current server runtime and must be skipped;
      * <b>false</b> if it is perfectly safe to proceed with injection.
-     * @see Registry.Include
-     * @see Registry.Exclude
+     * @see Component.Include
+     * @see Component.Exclude
      */
     public static boolean unCompatibleWithCurrentServer(@NotNull Class<?> clazz) {
 	    ServerType current = getServerType(plugin());
 	    Class<? extends ServerType> currentClass = current.getClass();
 
-	    if (clazz.isAnnotationPresent(Registry.Exclude.class)) {
-		    Registry.Exclude exclude = clazz.getAnnotation(Registry.Exclude.class);
+	    if (clazz.isAnnotationPresent(Component.Exclude.class)) {
+		    Component.Exclude exclude = clazz.getAnnotation(Component.Exclude.class);
 		    for (Class<? extends ServerType> excludedType : exclude.value()) {
 			    if (excludedType.isAssignableFrom(currentClass)) return true;
 		    }
 	    }
 
-	    if (clazz.isAnnotationPresent(Registry.Include.class)) {
-		    Registry.Include include = clazz.getAnnotation(Registry.Include.class);
+	    if (clazz.isAnnotationPresent(Component.Include.class)) {
+		    Component.Include include = clazz.getAnnotation(Component.Include.class);
 		    boolean matched = false;
 		    for (Class<? extends ServerType> targetType : include.value()) {
 			    if (!isServerTypeUnCompatible(targetType, current)) {

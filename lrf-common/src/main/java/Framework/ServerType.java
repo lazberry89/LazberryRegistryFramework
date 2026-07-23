@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * are permitted to initialize within the current runtime infrastructure.
  * </p>
  * <p>
- * <b>Registry Management Mechanics:</b>
+ * <b>Component Management Mechanics:</b>
  * The centralized bootstrap subsystem programmatically initializes and binds core environmental types into
  * the static thread-safe {@link ConcurrentHashMap} container during the framework's primary boot phase,
  * ensuring universal availability for dynamic configuration lookup operations.

@@ -24,7 +24,7 @@ import static Framework.LazberryRegistryFramework.ManagerInjection.initializeMan
 /**
  * Public execution room for LazberryRegistryFramework lifecycle triggers.
  * This class takes fully initialized beans from {@link PackageScanner}, then automatically
- * binds them to Bukkit EventManager, CommandMap, Task schedulers, and Custom Registry systems.
+ * binds them to Bukkit EventManager, CommandMap, Task schedulers, and Custom Component systems.
  * All method invocations are dynamically mapped by {@link InitializeType}.
  * * @see PackageScanner
  * @see InitializeType
@@ -32,7 +32,7 @@ import static Framework.LazberryRegistryFramework.ManagerInjection.initializeMan
  */
 @Slf4j
 public final class Reflections {
-	private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+	private static final @NotNull String icon = LazberryRegistryFramework.icon();
 
 	private static @NotNull JavaPlugin plugin() {
 		return LazberryRegistryFramework.plugin();

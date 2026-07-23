@@ -36,7 +36,7 @@ import java.util.List;
 @Slf4j
 final class ManagerInjection {
     private static final @NotNull List<ServerManager> ORDERED_MANAGERS = new ArrayList<>();
-    private static final @NotNull String icon = LazberryRegistryFramework.icon(false);
+    private static final @NotNull String icon = LazberryRegistryFramework.icon();
 
     /**
      * Phase 1: Context Filtering & Collection Routine.
