@@ -26,8 +26,6 @@ import java.lang.annotation.Target;
  * </p>
  *
  * @author Lazberry (LRF Architecture Team)
- * @see Framework.LazberryRegistryFramework.DestructiveClassEngine
- * @see Framework.LazberryRegistryFramework.Destructible
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
