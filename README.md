@@ -20,7 +20,8 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.lazberry89:LazberryRegistryFramework:Tag'
+    implementation 'com.github.lazberry89:LazberryRegistryFramework:v1.0.0'
+	annotationProcessor 'com.github.lazberry89:LazberryRegistryFramework:v1.0.0'
 }
 ```
 
@@ -35,7 +36,8 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.lazberry89:LazberryRegistryFramework:Tag")
+    implementation("com.github.lazberry89:LazberryRegistryFramework:v1.0.0")
+	annotationProcessor("com.github.lazberry89:LazberryRegistryFramework:v1.0.0")
 }
 ```
 
@@ -51,8 +53,29 @@ dependencies {
 <dependency>
     <groupId>com.github.lazberry89</groupId>
 	<artifactId>LazberryRegistryFramework</artifactId>
-	<version>Tag</version>
+	<version>v1.0.0</version>
 </dependency>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version>
+            <configuration>
+                <source>21</source>
+                <target>21</target>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>com.github.lazberry89</groupId>
+                        <artifactId>LazberryRegistryFramework</artifactId>
+                        <version>v1.0.0</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 ## Quick Start Guide for `Lazberry Registry Framework`
