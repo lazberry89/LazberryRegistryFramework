@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("maven-publish")
     id("io.github.goooler.shadow") version "8.1.8" apply false
 }
 
@@ -15,7 +16,15 @@ allprojects {
 
 subprojects {
     apply(plugin = "java")
+    apply(plugin = "maven-publish")
 
+    configure<PublishingExtension> {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                from(components["java"])
+            }
+        }
+    }
     dependencies {
         val lombokVersion = "1.18.46"
         compileOnly("org.projectlombok:lombok:$lombokVersion")
