@@ -11,7 +11,7 @@ By automating dependency graphs, command maps, event listener bindings, and asyn
 ## Quick Start Guide for `Lazberry Registry Framework`
 
 ### 1. Framework rules
-This framework are ruled by `CORS` rule.
+This framework is governed by `CORS` rule.
 | Key | Principle | Description |
 | :---: | :--- | :--- |
 | **`C`** | **Concrete** | LRF only manages concrete classes and instances. Abstract entities like `interface` or `abstract class` are strictly dismissed during IoC processing unless marked as declarative models. |
