@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.lazberry89:LazberryRegistryFramework:Tag'
+    implementation 'com.github.lazberry89:LazberryRegistryFramework:v1.0.0'
 }
 ```
 
@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.lazberry89:LazberryRegistryFramework:Tag")
+    implementation("com.github.lazberry89:LazberryRegistryFramework:v1.0.0")
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 <dependency>
     <groupId>com.github.lazberry89</groupId>
 	<artifactId>LazberryRegistryFramework</artifactId>
-	<version>Tag</version>
+	<version>v1.0.0</version>
 </dependency>
 ```
 
