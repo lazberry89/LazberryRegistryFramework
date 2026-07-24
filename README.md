@@ -8,6 +8,53 @@
 **Lazberry Registry Framework (LRF)** simplifies Minecraft plugin development by providing a modern Spring-like declarative ecosystem tailored for high-concurrency Bukkit environments. 
 
 By automating dependency graphs, command maps, event listener bindings, and asynchronous tasks using clean Java Annotations, **LRF** completely eliminates boilerplate initialization code in your `onEnable()` lifecycle.
+## Installation Guide [![JitPack](https://jitpack.io/v/lazberry89/LazberryRegistryFramework.svg)](https://jitpack.io/#lazberry89/LazberryRegistryFramework)
+`Gradle`
+```gradle
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.lazberry89:LazberryRegistryFramework:Tag'
+}
+```
+
+`gradle.kts`
+```kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		mavenCentral()
+		maven { url = uri("https://jitpack.io") }
+	}
+}
+
+dependencies {
+    implementation("com.github.lazberry89:LazberryRegistryFramework:Tag")
+}
+```
+
+`maven`
+```xml
+<repositories>
+    <repository>
+    	<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
+
+<dependency>
+    <groupId>com.github.lazberry89</groupId>
+	<artifactId>LazberryRegistryFramework</artifactId>
+	<version>Tag</version>
+</dependency>
+```
+
 ## Quick Start Guide for `Lazberry Registry Framework`
 
 ### 1. Framework rules
