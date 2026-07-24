@@ -1,0 +1,6 @@
+name: LazberryRegistryFramework
+version: v1.0.2
+main: Framework.LazberryRegistryFramework.LazberryRegistryFramework
+api-version: '1.21.11'
+description: A Spring-boot like dependency injection and component registry framework for Paper/Spigot plugins.
+author: lazberry89

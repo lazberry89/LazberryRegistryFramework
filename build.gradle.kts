@@ -6,7 +6,7 @@ plugins {
 
 allprojects {
     group = "org.lazberry"
-    version = "1.0.0-beta"
+    version = "v1.0.1"
 
     repositories {
         mavenCentral()
