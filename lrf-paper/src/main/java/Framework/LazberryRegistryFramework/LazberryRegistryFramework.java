@@ -328,6 +328,7 @@ public abstract class LazberryRegistryFramework extends JavaPlugin {
 	 * @param mainClass The concrete main class token of the plugin, used to extract classloader metadata.
 	 */
     public static void boot(@NotNull JavaPlugin plugin, @NotNull Class<? extends JavaPlugin> mainClass) {
+		DependencyContainer.clearBeans();
 	    ServerType.register(new Global());
 	    ServerType.register(new Local());
         setScanPackage(mainClass.getPackageName());
@@ -356,6 +357,7 @@ public abstract class LazberryRegistryFramework extends JavaPlugin {
     public static void cleanUp(@NotNull JavaPlugin plugin, @NotNull Class<? extends JavaPlugin> mainClass) {
         setup(plugin, mainClass, false);
 		ServerType.unregisterAll();
+		DependencyContainer.clearBeans();
     }
 
 	/**

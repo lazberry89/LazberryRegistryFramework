@@ -264,4 +264,9 @@ public final class DependencyContainer {
         targetConstructor.setAccessible(true);
         return targetConstructor;
     }
+
+	public static synchronized void clearBeans() {
+		BEAN_CONTAINER.clear();
+		CONSTRUCTION_STACK.clear();
+	}
 }
