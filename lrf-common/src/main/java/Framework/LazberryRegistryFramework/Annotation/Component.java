@@ -1,6 +1,6 @@
-package Framework.Annotation;
+package Framework.LazberryRegistryFramework.Annotation;
 
-import Framework.ServerType;
+import Framework.LazberryRegistryFramework.ServerType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * </p>
  *
  * @author Lazberry (LRF Architecture Team)
- * @see Framework.ServerType
+ * @see ServerType
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

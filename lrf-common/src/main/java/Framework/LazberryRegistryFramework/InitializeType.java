@@ -1,4 +1,4 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
 /**
  * Only Used by Reflection annotation to divide process

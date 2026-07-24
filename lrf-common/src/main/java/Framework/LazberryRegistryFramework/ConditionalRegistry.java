@@ -1,4 +1,4 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
 /**
  * <h2>LRF Functional Condition Evaluator Interface</h2>

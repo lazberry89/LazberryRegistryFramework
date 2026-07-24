@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework.Monitoring;
 
-import Framework.Annotation.ConsumableClass;
+import Framework.LazberryRegistryFramework.Annotation.ConsumableClass;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

@@ -1,10 +1,10 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.Inject;
-import Framework.FrameworkExceptions.CircularDependencyException;
-import Framework.FrameworkExceptions.NotCompatibleWithServerException;
-import Framework.FrameworkExceptions.NotValidInitializeTimingException;
-import Framework.FrameworkExceptions.VirtualClassInjectException;
+import Framework.LazberryRegistryFramework.Annotation.Inject;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.CircularDependencyException;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.NotCompatibleWithServerException;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.NotValidInitializeTimingException;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.VirtualClassInjectException;
 import Framework.LazberryRegistryFramework.Annotation.ConfigValue;
 import Framework.Utils.ServerUtils;
 import lombok.extern.slf4j.Slf4j;

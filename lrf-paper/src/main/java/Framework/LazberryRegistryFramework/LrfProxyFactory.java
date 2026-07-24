@@ -1,8 +1,8 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.Async;
-import Framework.Annotation.Sync;
-import Framework.Annotation.Transactional;
+import Framework.LazberryRegistryFramework.Annotation.Async;
+import Framework.LazberryRegistryFramework.Annotation.Sync;
+import Framework.LazberryRegistryFramework.Annotation.Transactional;
 import Framework.LazberryRegistryFramework.Annotation.Monitor;
 import Framework.LazberryRegistryFramework.Monitoring.PerformanceRegistry;
 import lombok.extern.slf4j.Slf4j;

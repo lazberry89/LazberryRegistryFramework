@@ -1,4 +1,4 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

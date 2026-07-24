@@ -1,4 +1,4 @@
-package Framework.Annotation;
+package Framework.LazberryRegistryFramework.Annotation;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
 package Framework.Utils;
 
-import Framework.Annotation.Document;
+import Framework.LazberryRegistryFramework.Annotation.Document;
 import org.bukkit.Material;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;

@@ -1,5 +1,6 @@
-package Framework.FrameworkExceptions;
+package Framework.LazberryRegistryFramework.FrameworkExceptions;
 
+import Framework.LazberryRegistryFramework.InitializeType;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,12 +19,12 @@ import org.jetbrains.annotations.NotNull;
  * If matched, the engine triggers {@code LrfInitializer#afterPropertiesSet()} to prime the component. If the target bean
  * attempts to access underlying systems (such as unmapped network channels via {@code OutboundChannel}, uninitialized
  * task loops via {@code Task}, or missing configurations) before the container enters the required
- * {@code Framework.InitializeType} state, this exception is explicitly thrown to fail-fast and preserve system integrity.
+ * {@code Framework.LazberryRegistryFramework.InitializeType} state, this exception is explicitly thrown to fail-fast and preserve system integrity.
  * </p>
  *
  * @author Lazberry (LRF Architecture Team)
  * @see java.lang.RuntimeException
- * @see Framework.InitializeType
+ * @see InitializeType
  */
 public class NotValidInitializeTimingException extends RuntimeException {
 

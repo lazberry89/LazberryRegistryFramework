@@ -30,7 +30,7 @@ public interface Tasks {
 	 * <p>
 	 * <b>Engine Invocation Flow:</b>
 	 * This boundary is explicitly fired by {@code Reflections.taskReflection(true)} during the
-	 * {@link Framework.InitializeType#TASKS_ON} phase. The core engine passes the live root plugin context
+	 * {@link InitializeType#TASKS_ON} phase. The core engine passes the live root plugin context
 	 * down the stream, allowing implementors to safely invoke Bukkit's scheduler factories
 	 * (e.g., {@code Bukkit.getScheduler().runTaskTimer(plugin, ...)}).
 	 * </p>
@@ -44,7 +44,7 @@ public interface Tasks {
 	 * <p>
 	 * <b>Crucial Memory Guardrail (Anti-Leak Requirements):</b>
 	 * This boundary is explicitly fired by {@code Reflections.taskReflection(false)} during the
-	 * {@link Framework.InitializeType#TASKS_OFF} phase (triggered on plugin disable). Implementors
+	 * {@link InitializeType#TASKS_OFF} phase (triggered on plugin disable). Implementors
 	 * <b>must</b> cancel their active task IDs or unregister their asynchronous tasks here to prevent
 	 * un-garbage-collected tasks from lingering in server memory after a reload.
 	 * </p>

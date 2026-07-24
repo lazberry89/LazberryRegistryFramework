@@ -1,4 +1,4 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
 /**
  * <h2>ServerManager (Core Domain Business Lifecycle Contract)</h2>

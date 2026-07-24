@@ -1,9 +1,9 @@
 package Framework.Utils;
 
-import Framework.Annotation.Component;
-import Framework.Global;
+import Framework.LazberryRegistryFramework.Annotation.Component;
+import Framework.LazberryRegistryFramework.Global;
 import Framework.LazberryRegistryFramework.LazberryRegistryFramework;
-import Framework.ServerType;
+import Framework.LazberryRegistryFramework.ServerType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -111,7 +111,7 @@ public final class ServerUtils {
      * active server runtime type ({@code currentType}) to calculate structural incompatibility.
      * </p>
      * <b>[Special Condition Handling]:</b>
-     * If the target type is designated as {@link Framework.Global}, the engine executes a granular validation
+     * If the target type is designated as {@link Global}, the engine executes a granular validation
      * check against the core subsystem configuration to determine if the active node enforces a global initializer phase
      * ({@link ServerType#requiresGlobalInitiator()}).
      *

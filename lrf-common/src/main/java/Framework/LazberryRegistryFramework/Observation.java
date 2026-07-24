@@ -1,4 +1,4 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
 import lombok.Getter;
 

@@ -1,6 +1,5 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.InitializeType;
 import Framework.LazberryRegistryFramework.Annotation.*;
 import com.google.common.reflect.ClassPath;
 import lombok.extern.slf4j.Slf4j;

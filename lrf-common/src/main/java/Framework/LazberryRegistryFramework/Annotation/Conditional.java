@@ -1,6 +1,6 @@
-package Framework.Annotation;
+package Framework.LazberryRegistryFramework.Annotation;
 
-import Framework.ConditionalRegistry;
+import Framework.LazberryRegistryFramework.ConditionalRegistry;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  *
  * @author Lazberry (LRF Architecture Team)
  * @version 1.1.0
- * @see Framework.ConditionalRegistry
+ * @see Framework.LazberryRegistryFramework.ConditionalRegistry
  * @see Component.Include
  */
 @Target(ElementType.TYPE)

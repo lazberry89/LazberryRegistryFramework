@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
     group = "org.lazberry"
-    version = "1.0.0-BETA"
+    version = "1.0.0-beta"
 
     repositories {
         mavenCentral()
@@ -20,6 +20,8 @@ subprojects {
         val lombokVersion = "1.18.46"
         compileOnly("org.projectlombok:lombok:$lombokVersion")
         annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+        compileOnly("com.google.auto.service:auto-service:1.1.1")
+        annotationProcessor("com.google.auto.service:auto-service:1.1.1")
     }
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"

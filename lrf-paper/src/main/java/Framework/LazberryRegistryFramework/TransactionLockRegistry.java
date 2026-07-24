@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.Transactional;
+import Framework.LazberryRegistryFramework.Annotation.Transactional;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

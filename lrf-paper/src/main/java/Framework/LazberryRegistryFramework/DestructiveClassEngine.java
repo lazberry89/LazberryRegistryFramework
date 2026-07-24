@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.SelfDestruct;
+import Framework.LazberryRegistryFramework.Annotation.SelfDestruct;
 import lombok.extern.slf4j.Slf4j;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;

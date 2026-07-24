@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.FrameworkExceptions.InvalidConfigInjectException;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.InvalidConfigInjectException;
 import Framework.LazberryRegistryFramework.Annotation.ConfigValue;
 import lombok.extern.slf4j.Slf4j;
 import org.bukkit.plugin.java.JavaPlugin;

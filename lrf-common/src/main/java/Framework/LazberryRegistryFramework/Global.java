@@ -1,6 +1,6 @@
-package Framework;
+package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.ConsumableClass;
+import Framework.LazberryRegistryFramework.Annotation.ConsumableClass;
 import org.jetbrains.annotations.NotNull;
 
 @ConsumableClass

@@ -1,4 +1,6 @@
-package Framework.FrameworkExceptions;
+package Framework.LazberryRegistryFramework.FrameworkExceptions;
+
+import Framework.LazberryRegistryFramework.ServerType;
 
 /**
  * <h2>NotCompatibleWithServerException</h2>
@@ -17,7 +19,7 @@ package Framework.FrameworkExceptions;
  *
  * @author Lazberry (LRF Architecture Team)
  * @see java.lang.RuntimeException
- * @see Framework.ServerType
+ * @see ServerType
  */
 public class NotCompatibleWithServerException extends RuntimeException {
 

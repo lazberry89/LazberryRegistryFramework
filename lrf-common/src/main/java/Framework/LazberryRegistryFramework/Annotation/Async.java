@@ -1,4 +1,4 @@
-package Framework.Annotation;
+package Framework.LazberryRegistryFramework.Annotation;
 
 import javax.management.monitor.Monitor;
 import java.lang.annotation.ElementType;

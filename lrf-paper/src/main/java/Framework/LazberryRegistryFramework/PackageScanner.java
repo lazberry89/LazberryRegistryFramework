@@ -1,11 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.Annotation.*;
-import Framework.ConditionalRegistry;
-import Framework.LazberryRegistryFramework.Annotation.Commands;
-import Framework.LazberryRegistryFramework.Annotation.ConfigObject;
-import Framework.LazberryRegistryFramework.Annotation.Listeners;
-import Framework.LazberryRegistryFramework.Annotation.Task;
+import Framework.LazberryRegistryFramework.Annotation.*;
 import Framework.Utils.ServerUtils;
 import com.google.common.reflect.ClassPath;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +30,7 @@ import java.util.Set;
  * @author Lazberry (LRF Architecture Team)
  * @see Reflections
  * @see DependencyContainer
- * @see Framework.ConditionalRegistry
+ * @see ConditionalRegistry
  */
 @Slf4j
 final class PackageScanner {

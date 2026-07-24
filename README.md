@@ -270,7 +270,7 @@ You can dynamically include or exclude components from the IoC container based o
 ```java
 package com.lazberry.myplugin.condition;
 
-import Framework.ConditionalRegistry;
+import Framework.LazberryRegistryFramework.ConditionalRegistry;
 
 // 1. Define your custom runtime condition evaluator
 public final class DevEnvironmentCondition implements ConditionalRegistry {

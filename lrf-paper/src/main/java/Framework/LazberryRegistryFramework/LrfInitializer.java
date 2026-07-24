@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework;
 
-import Framework.FrameworkExceptions.NotValidInitializeTimingException;
+import Framework.LazberryRegistryFramework.FrameworkExceptions.NotValidInitializeTimingException;
 
 /**
  * Standard Functional Lifecycle Callback Hook for the LazberryRegistryFramework (LRF) Container.

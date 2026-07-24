@@ -1,6 +1,6 @@
 package Framework.LazberryRegistryFramework.Annotation;
 
-import Framework.InitializeType;
+import Framework.LazberryRegistryFramework.InitializeType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  *
  * @author Lazberry (LRF Architecture Team)
  * @see Framework.LazberryRegistryFramework.Reflections
- * @see Framework.InitializeType
+ * @see Framework.LazberryRegistryFramework.InitializeType
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

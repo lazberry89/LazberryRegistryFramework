@@ -1,4 +1,4 @@
-package Framework.FrameworkExceptions;
+package Framework.LazberryRegistryFramework.FrameworkExceptions;
 
 /**
  * <h2>InvalidConfigInjectException</h2>
