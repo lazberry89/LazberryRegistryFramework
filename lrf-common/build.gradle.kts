@@ -11,7 +11,8 @@ dependencies {
     compileOnly("net.kyori:adventure-text-minimessage:4.17.0")
     compileOnly("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
-
+    compileOnly("com.google.auto.service:auto-service:1.1.1")
+    annotationProcessor("com.google.auto.service:auto-service:1.1.1")
 }
 
 tasks.test {
