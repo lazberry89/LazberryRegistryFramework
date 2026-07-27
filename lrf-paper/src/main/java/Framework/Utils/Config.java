@@ -57,6 +57,19 @@ public record Config(FileConfiguration file) {
 	}
 
 	/**
+	 * Programmatically sets a target key-value pair directly into the configuration stream.
+	 *
+	 * @param key   The absolute configuration path signature (e.g., "fields.arena1.max").
+	 * @param value The target object asset to write into the YAML memory node.
+	 * @return The current operational {@link Config} context instance to support continuous API chaining.
+	 */
+	@Contract("_, _ -> this")
+	public @NotNull Config set(String key, @Nullable Object value) {
+		this.file.set(key, value);
+		return this;
+	}
+
+	/**
 	 * Resolves and extracts a type-safe generic attribute value from the internal stream, instantly triggering
 	 * automatic numerical widening or narrowing conversions if an instance mismatch is detected.
 	 * <p>
@@ -125,4 +138,5 @@ public record Config(FileConfiguration file) {
 			return null;
 		}
 	}
+
 }
