@@ -1,6 +1,7 @@
 package Framework.LazberryRegistryFramework;
 
 import Framework.LazberryRegistryFramework.Annotation.Inject;
+import Framework.LazberryRegistryFramework.Annotation.SelfDestruct;
 import Framework.LazberryRegistryFramework.FrameworkExceptions.CircularDependencyException;
 import Framework.LazberryRegistryFramework.FrameworkExceptions.NotCompatibleWithServerException;
 import Framework.LazberryRegistryFramework.FrameworkExceptions.NotValidInitializeTimingException;
@@ -226,6 +227,10 @@ public final class DependencyContainer {
                         throw e;
                     }
                 }
+
+	            if (clazz.isAnnotationPresent(SelfDestruct.class)) {
+		            DestructiveClassEngine.registerDestruction(clazz, instance, LazberryRegistryFramework.plugin());
+	            }
             }
 
             if (instance != null) BEAN_CONTAINER.put(clazz, instance);
