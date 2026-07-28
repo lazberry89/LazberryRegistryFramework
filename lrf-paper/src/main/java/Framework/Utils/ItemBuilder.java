@@ -11,6 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -179,6 +180,12 @@ public final class ItemBuilder {
 	@Contract("_ -> this")
 	public ItemBuilder setAttackDamage(double damage) {
 		return addAttribute(Attribute.ATTACK_DAMAGE, damage, AttributeModifier.Operation.ADD_NUMBER);
+	}
+
+	@Contract("_ -> this")
+	public ItemBuilder setDamage(int damage) {
+		if (meta instanceof Damageable damageable) damageable.setDamage(damage);
+		return this;
 	}
 
 	/**
