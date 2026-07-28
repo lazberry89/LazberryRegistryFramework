@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Fluent API Builder utility for creating and modifying {@link ItemStack} with ease.
@@ -59,6 +60,12 @@ public final class ItemBuilder {
 		this.item = itemStack.clone();
 		this.meta = item.getItemMeta();
 		this.plugin = plugin;
+	}
+
+	@Contract("_ -> this")
+	public ItemBuilder editMeta(Consumer<ItemMeta> consumer) {
+		consumer.accept(this.meta);
+		return this;
 	}
 
 	/**
@@ -268,11 +275,11 @@ public final class ItemBuilder {
 	 * Finalizes structural builder adjustments and overrides item amount.
 	 * <p><b>NOTE:</b> This method breaks the chaining flow and returns raw {@link ItemStack}.</p>
 	 * @param i target item amount
-	 * @return finalized ItemStack instance
+	 * @return ItemBuilder instance
 	 */
-	public ItemStack setAmount(int i) {
+	public ItemBuilder setAmount(int i) {
 		item.setAmount(i);
-		return item;
+		return this;
 	}
 
 	/**
@@ -336,6 +343,21 @@ public final class ItemBuilder {
 		if (meta != null) {
 			NamespacedKey nsk = new NamespacedKey(this.plugin, key);
 			meta.getPersistentDataContainer().set(nsk, PersistentDataType.INTEGER, value);
+		}
+		return this;
+	}
+
+	/**
+	 * Embeds metadata tag using {@link PersistentDataType#BOOLEAN}.
+	 * @param key unique namespace tag key
+	 * @param value metadata value boolean
+	 * @return builder instance
+	 */
+	@Contract("_, _ -> this")
+	public ItemBuilder setTag(@NotNull String key, @NotNull Boolean value) {
+		if (meta != null) {
+			NamespacedKey nsk = new NamespacedKey(this.plugin, key);
+			meta.getPersistentDataContainer().set(nsk, PersistentDataType.BOOLEAN, value);
 		}
 		return this;
 	}

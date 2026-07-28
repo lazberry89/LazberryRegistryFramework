@@ -38,7 +38,7 @@ import java.util.Set;
  * └──> [Needs] SqlManager
  * ├─ Perfect Assembly: SqlManager (with 0 deps)
  * ├─ Perfect Assembly: DungeonManager (with 1 dep)
- * └─ [LRF-Lifecycle] Callback Success: DungeonManager
+ * └─ Callback Success: DungeonManager
  * </pre>
  *
  * @author Lazberry (LRF Architecture Team)
@@ -88,7 +88,7 @@ public final class StructuralLog {
         if (!LazberryRegistryFramework.isLogDrawStructure()) return;
 
         String indent = "    ".repeat(depth);
-        log.info("{}{} └─ [LRF-Lifecycle] Callback Success: {}", ICON, indent, clazz.getSimpleName());
+        log.info("{}{} └─ Callback Success: {}", ICON, indent, clazz.getSimpleName());
     }
 
     /**
