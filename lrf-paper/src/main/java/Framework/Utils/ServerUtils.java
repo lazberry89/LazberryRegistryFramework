@@ -140,7 +140,11 @@ public final class ServerUtils {
      * @return The precise {@link ServerType} identity representing the role of this node in the network map.
      */
     public static @NotNull ServerType getServerType(@NotNull JavaPlugin plugin) {
-        plugin.saveDefaultConfig();
+		try {
+			plugin.saveDefaultConfig();
+		} catch (IllegalArgumentException e) {
+			return ServerType.getServerType("main");
+		}
         return ServerType.getServerType(plugin.getConfig().getString("server-type", "main"));
     }
 }
