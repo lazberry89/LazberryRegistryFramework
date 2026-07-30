@@ -119,7 +119,7 @@ final class PackageScanner {
 		            log.info("{} Registered @ConfigObject bean: {}", LazberryRegistryFramework.icon(), clazz.getSimpleName());
 	            }
             } catch (Exception e) {
-                if (LazberryRegistryFramework.isDebug()) log.warn("{} Failed to load class for scanning: {}", icon, classInfo.getName());
+                if (LazberryRegistryFramework.isDebug()) log.warn("{} Failed to load class for scanning: {}", icon, classInfo.getName(), e);
             }
         }
 
