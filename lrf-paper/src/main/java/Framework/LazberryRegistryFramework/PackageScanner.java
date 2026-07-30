@@ -88,6 +88,7 @@ final class PackageScanner {
 
                 if (clazz.isAnnotationPresent(Component.Include.class) ||
                         clazz.isAnnotationPresent(Component.Exclude.class) ||
+		                clazz.isAnnotationPresent(Component.class) ||
                         clazz.isAnnotationPresent(Commands.class) ||
                         clazz.isAnnotationPresent(Listeners.class) ||
                         clazz.isAnnotationPresent(Task.class) ||
