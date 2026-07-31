@@ -79,7 +79,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @Slf4j
 public abstract class LazberryRegistryFramework extends JavaPlugin {
-    private static final @NotNull String VERSION = "LRF_26.7.19";
+    private static final @NotNull String VERSION = "lrf_26.7.19";
     private static final @NotNull String success = "§a[SUCCESS]";
     private static final @NotNull String failure = "§c[FAILURE]";
     private static @NotNull String packageName = "";

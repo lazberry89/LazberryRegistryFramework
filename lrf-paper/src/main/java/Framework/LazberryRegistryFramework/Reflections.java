@@ -91,7 +91,7 @@ public final class Reflections {
 		try {
 			for (var entry : DependencyContainer.getContainer().entrySet()) {
 				Class<?> clazz = entry.getKey();
-				if (Listener.class.isAssignableFrom(clazz)) {
+				if (Listener.class.isAssignableFrom(clazz) && clazz.isAnnotationPresent(Listeners.class)) {
 					Listener instance = (Listener) entry.getValue();
 					Bukkit.getPluginManager().registerEvents(instance, plugin());
 					log.info("{} Listener {} Automatically registered from IoC Container", icon, clazz.getSimpleName());

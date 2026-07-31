@@ -8,6 +8,7 @@ import Framework.LazberryRegistryFramework.Monitoring.PerformanceRegistry;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.attribute.MethodAttributeAppender;
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -82,6 +83,7 @@ public final class LrfProxyFactory {
 					.subclass(clazz)
 					.method(ElementMatchers.any())
 					.intercept(MethodDelegation.to(interceptor))
+					.attribute(MethodAttributeAppender.ForInstrumentedMethod.INCLUDING_RECEIVER)
 					.make()
 					.load(clazz.getClassLoader())
 					.getLoaded();
