@@ -17,7 +17,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import sun.misc.Unsafe;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.ReentrantLock;
@@ -81,7 +83,12 @@ public final class LrfProxyFactory {
 					.load(clazz.getClassLoader())
 					.getLoaded();
 
-			return proxyClass.getDeclaredConstructor().newInstance();
+			Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+			unsafeField.setAccessible(true);
+			Unsafe unsafe = (Unsafe) unsafeField.get(null);
+
+			return (T) unsafe.allocateInstance(proxyClass);
+
 		} catch (Exception e) {
 			log.error("{} Failed to create proxy for: {}", icon, clazz.getSimpleName(), e);
 			return (T) instance;
