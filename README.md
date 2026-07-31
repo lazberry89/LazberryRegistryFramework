@@ -20,8 +20,8 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation 'com.github.lazberry89:LazberryRegistryFramework:v1.0.9'
-	annotationProcessor 'com.github.lazberry89:LazberryRegistryFramework:v1.0.9'
+    implementation 'com.github.lazberry89:LazberryRegistryFramework:v1.1.0'
+	annotationProcessor 'com.github.lazberry89:LazberryRegistryFramework:v1.1.0'
 }
 ```
 
@@ -36,8 +36,8 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.lazberry89:LazberryRegistryFramework:v1.0.9")
-	annotationProcessor("com.github.lazberry89:LazberryRegistryFramework:v1.0.9")
+    implementation("com.github.lazberry89:LazberryRegistryFramework:v1.1.0")
+	annotationProcessor("com.github.lazberry89:LazberryRegistryFramework:v1.1.0")
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 <dependency>
     <groupId>com.github.lazberry89</groupId>
 	<artifactId>LazberryRegistryFramework</artifactId>
-	<version>v1.0.9</version>
+	<version>v1.1.0</version>
 </dependency>
 
 <build>
@@ -69,7 +69,7 @@ dependencies {
                     <path>
                         <groupId>com.github.lazberry89</groupId>
                         <artifactId>LazberryRegistryFramework</artifactId>
-                        <version>v1.0.9</version>
+                        <version>v1.1.0</version>
                     </path>
                 </annotationProcessorPaths>
             </configuration>
