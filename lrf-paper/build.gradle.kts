@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(project(":lrf-common"))
     implementation("net.bytebuddy:byte-buddy:1.18.11")
+    implementation("org.objenesis:objenesis:3.4")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

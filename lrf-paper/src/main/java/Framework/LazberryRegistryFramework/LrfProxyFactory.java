@@ -1,9 +1,9 @@
 package Framework.LazberryRegistryFramework;
 
 import Framework.LazberryRegistryFramework.Annotation.Async;
+import Framework.LazberryRegistryFramework.Annotation.Monitor;
 import Framework.LazberryRegistryFramework.Annotation.Sync;
 import Framework.LazberryRegistryFramework.Annotation.Transactional;
-import Framework.LazberryRegistryFramework.Annotation.Monitor;
 import Framework.LazberryRegistryFramework.Monitoring.PerformanceRegistry;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.ByteBuddy;
@@ -17,7 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sun.misc.Unsafe;
+import org.objenesis.ObjenesisStd;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -73,22 +73,30 @@ public final class LrfProxyFactory {
 	 * @param <T>      The component type generic.
 	 * @return An AOP-enhanced subclass proxy instance; or the original instance if synthesis fails.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T createProxy(Class<T> clazz, Object instance) {
 		try {
+			LrfInterceptor interceptor = new LrfInterceptor(instance);
+
 			Class<? extends T> proxyClass = new ByteBuddy()
 					.subclass(clazz)
 					.method(ElementMatchers.any())
-					.intercept(MethodDelegation.to(new LrfInterceptor(instance)))
+					.intercept(MethodDelegation.to(interceptor))
 					.make()
 					.load(clazz.getClassLoader())
 					.getLoaded();
 
-			Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-			unsafeField.setAccessible(true);
-			Unsafe unsafe = (Unsafe) unsafeField.get(null);
+			T proxy = new ObjenesisStd().newInstance(proxyClass);
 
-			return (T) unsafe.allocateInstance(proxyClass);
+			for (Field field : proxyClass.getDeclaredFields()) {
+				if (field.getType().isAssignableFrom(LrfInterceptor.class)) {
+					field.setAccessible(true);
+					field.set(proxy, interceptor);
+					break;
+				}
+			}
 
+			return proxy;
 		} catch (Exception e) {
 			log.error("{} Failed to create proxy for: {}", icon, clazz.getSimpleName(), e);
 			return (T) instance;
