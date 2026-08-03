@@ -1,6 +1,5 @@
 package Framework.Utils;
 
-import Framework.LazberryRegistryFramework.Annotation.Listeners;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -13,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.UUID;
 
-@Listeners
 public class EffectListener implements Listener {
 
     public EffectListener() {}

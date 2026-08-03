@@ -11,5 +11,6 @@ public enum InitializeType {
 	TASKS_OFF,
 	REGISTER,
 	NETWORKS,
+	DATABASE_ORM,
 	EXCEPTED,
 }

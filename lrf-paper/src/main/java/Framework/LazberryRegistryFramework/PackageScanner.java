@@ -78,6 +78,15 @@ final class PackageScanner {
                     continue;
                 }
 
+	            if (clazz.isAnnotationPresent(Table.class)) {
+		            try {
+			            MetadataRegistry.register(clazz);
+		            } catch (Exception e) {
+			            log.error("{} Failed to parse ORM Metadata for {}", icon, clazz.getSimpleName(), e);
+		            }
+		            continue;
+	            }
+
                 boolean hasInjectConstructor = false;
                 for (var constructor : clazz.getDeclaredConstructors()) {
                     if (constructor.isAnnotationPresent(Inject.class)) {

@@ -1,6 +1,7 @@
 package Framework.LazberryRegistryFramework;
 
 import Framework.LazberryRegistryFramework.Annotation.GracefulShutdown;
+import Framework.Utils.EffectListener;
 import com.google.common.reflect.ClassPath;
 import lombok.Getter;
 import lombok.Setter;
@@ -282,6 +283,8 @@ public abstract class LazberryRegistryFramework extends JavaPlugin {
 	 */
     private static void setup(@NotNull JavaPlugin plugin, @NotNull Class<? extends JavaPlugin> mainClass, boolean on) {
 		setPluginInstance(plugin);
+
+		plugin.getServer().getPluginManager().registerEvents(new EffectListener(), plugin);
 
         String icon = icon();
         long startTime = System.currentTimeMillis();

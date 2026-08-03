@@ -15,6 +15,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static Framework.LazberryRegistryFramework.ManagerInjection.collectManagers;
@@ -219,6 +220,22 @@ public final class Reflections {
 			}
 		} catch (Exception e) {
 			log.error("{} Error occurred while registering Plugin Channels", icon, e);
+		}
+	}
+
+	@Reflection(type = InitializeType.DATABASE_ORM)
+	public static void initializeDatabaseTables(@NotNull ClassPath classPath) {
+		try {
+			Collection<EntityMetadata> allEntities = MetadataRegistry.getAll();
+			if (allEntities.isEmpty()) return;
+
+			log.info("{} Running Auto-DDL for {} ORM entities...", icon, allEntities.size());
+
+			// TODO: AutoDdlEngine 같은 걸 만들어서 "CREATE TABLE IF NOT EXISTS ..." 실행
+			// AutoDdlEngine.createTables(allEntities);
+
+		} catch (Exception e) {
+			log.error("{} Error occurred while executing ORM Auto-DDL", icon, e);
 		}
 	}
 }
